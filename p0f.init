@@ -34,6 +34,15 @@ case "$1" in
 		if [ -n "$P0F_INTERFACE" ]; then
 			OPTIONS="-i $P0F_INTERFACE"
 		fi
+		if [ $P0F_UNKNOWN_SIGNATURES = "yes" ]; then
+			OPTIONS="$OPTIONS -U"
+		fi
+		if [ $P0F_KNOWN_SIGNATURES = "yes" ]; then
+			OPTIONS="$OPTIONS -K"
+		fi
+		if [ $P0F_TIMESTAMPS = "yes" ]; then
+			OPTIONS="$OPTIONS -t"
+		fi
 		#Start up p0f and filter out all packets originating from any of this machines IP's.
 		nohup /usr/sbin/p0f -v "$BpfFilter" $OPTIONS >>/var/log/p0f 2>&1 &
 

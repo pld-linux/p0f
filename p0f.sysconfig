@@ -2,3 +2,12 @@
 
 # Define interface for p0f
 P0F_INTERFACE=""
+
+# set to "yes" not display unknown signatures
+P0F_UNKNOWN_SIGNATURES="no"
+
+# set to "yes" not display known signatures
+P0F_KNOWN_SIGNATURES="no"
+
+# set to "yes" add timestamps
+P0F_TIMESTAMPS="no"
