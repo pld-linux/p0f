@@ -49,9 +49,9 @@ tego hosta.
 
 cd test
 %{__cc} -o p0fq p0fq.c
-%{__cc} -o p0f-sendack sendack.c
+%{__cc} -o p0f-sendack  sendack.c
 %{__cc} -o p0f-sendack2 sendack2.c
-%{__cc} -o p0f-sendsyn sendsyn.c
+%{__cc} -o p0f-sendsyn  sendsyn.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -66,7 +66,7 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,%{_sbindir},%{_mandir
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/p0f
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/p0f
 cd test
-install p0fq p0f-* $RPM_BUILD_ROOT/%{_bindir}
+install p0fq p0f-* $RPM_BUILD_ROOT/%{_sbindir}
 #install p0f.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %clean
@@ -101,5 +101,4 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/p0f
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/p0f
 %attr(755,root,root) %{_sbindir}/p0f*
-%attr(755,root,root) %{_bindir}/p0f*
 %{_mandir}/man1/p0f.1*
