@@ -1,4 +1,4 @@
-Summary:	passive OS fingerprinting tool
+Summary:	Passive OS fingerprinting tool
 Summary(pl):	Narzêdzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
 Version:	1.8.3
