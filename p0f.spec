@@ -6,8 +6,6 @@ Release:	1
 License:	GPL
 Vendor:		Michal Zalewski <lcamtuf@coredump.cx>
 Group:		Applications/Networking
-Group(de):	Applikationen/Netzwerkwesen
-Group(pl):	Aplikacje/Sieciowe
 Source0:	http://www.stearns.org/p0f/%{name}-%{version}.tgz
 Source1:	%{name}.init
 URL:		http://www.stearns.org/p0f/
