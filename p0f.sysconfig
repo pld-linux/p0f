@@ -1,6 +1,9 @@
 # Customized setings for p0f
 
-# Define interface for p0f
+# use this rule
+P0F_RULE=""
+
+# define interface for p0f
 P0F_INTERFACE=""
 
 # set to "yes" not display unknown signatures
@@ -11,3 +14,6 @@ P0F_KNOWN_SIGNATURES="no"
 
 # set to "yes" add timestamps
 P0F_TIMESTAMPS="no"
+
+# add other options
+P0F_OPTIONS=""
