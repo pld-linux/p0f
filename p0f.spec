@@ -2,14 +2,14 @@
 Summary:	Passive OS fingerprinting tool
 Summary(pl):	Narzêdzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
-Version:	2.0.4
-Release:	2
+Version:	2.0.5
+Release:	1
 License:	LGPL v2.1
 Vendor:		Michal Zalewski <lcamtuf@coredump.cx>
 Group:		Applications/Networking
 # Official releases:
 Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-%{version}.tgz
-# Source0-md5:	7dc7a20c7678233381ed1dbc96d1f423
+# Source0-md5:	78235749e8ada6ad2b16b40fe15081f6
 # Devel:
 #Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-devel.tgz
 Source1:	%{name}.init
