@@ -2,12 +2,13 @@ Summary:	passive OS fingerprinting tool
 Summary(pl):	Narzêdzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
 Version:	1.8
-Release:	2
+Release:	3
 License:	GPL
 Vendor:		Michal Zalewski <lcamtuf@coredump.cx>
 Group:		Applications/Networking
 Source0:	http://www.stearns.org/p0f/%{name}-%{version}.tgz
 Source1:	%{name}.init
+Source2:	%{name}.sysconfig
 URL:		http://www.stearns.org/p0f/
 Prereq:		/sbin/chkconfig
 BuildRequires:	libpcap-devel
@@ -36,12 +37,13 @@ tego hosta.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sbindir},%{_mandir}/man1}
+install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,%{_sbindir},%{_mandir}/man1}
 
 install p0f.fp $RPM_BUILD_ROOT%{_sysconfdir}
 install p0f $RPM_BUILD_ROOT%{_sbindir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/p0f
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/p0f
 install p0f.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %clean
@@ -73,5 +75,6 @@ fi
 %doc README
 %attr(644,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/p0f.fp
 %attr(754,root,root) /etc/rc.d/init.d/p0f
+%attr(640,root,root) /etc/sysconfig/p0f
 %attr(755,root,root) %{_sbindir}/p0f
 %attr(644,root,root) %{_mandir}/man1/p0f.1*
