@@ -10,7 +10,7 @@ Source0:	http://www.stearns.org/p0f/%{name}-%{version}.tgz
 Source1:	%{name}.init
 URL:		http://www.stearns.org/p0f/
 Prereq:		/sbin/chkconfig
-BuildRequires:  libpcap-devel
+BuildRequires:	libpcap-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
