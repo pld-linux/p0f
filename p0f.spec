@@ -10,6 +10,7 @@ Group(pl):	Aplikacje/Sieciowe
 Source0:	http://www.stearns.org/p0f/%{name}-%{version}.tgz
 Source1:	%{name}.init
 Prereq:		/sbin/chkconfig
+BuildRequires:  libpcap-devel
 Vendor:		Michal Zalewski <lcamtuf@coredump.cx>
 URL:		http://www.stearns.org/p0f/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
