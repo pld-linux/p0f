@@ -13,7 +13,7 @@ Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-devel.tgz
 # Source0-md5:	e1e9921011945b5344c0d0a89b327aee
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
-Patch0:		%{name}-config_h.patch
+Patch0:		%{name}-DESTDIR.patch
 URL:		http://lcamtuf.coredump.cx/p0f.shtml
 BuildRequires:	libpcap-devel
 PreReq:		rc-scripts
@@ -47,16 +47,26 @@ tego hosta.
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -fomit-frame-pointer -Wall"
 
+cd test
+%{__cc} -o p0fq p0fq.c
+%{__cc} -o p0f-sendack sendack.c
+%{__cc} -o p0f-sendack2 sendack2.c
+%{__cc} -o p0f-sendsyn sendsyn.c
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,%{_sbindir},%{_mandir}/man1,%{_bindir}}
 
-install p0f.fp $RPM_BUILD_ROOT%{_sysconfdir}
-install p0f $RPM_BUILD_ROOT%{_sbindir}
-install p0frep $RPM_BUILD_ROOT%{_bindir}
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
+
+#install p0f.fp $RPM_BUILD_ROOT%{_sysconfdir}
+#install p0f $RPM_BUILD_ROOT%{_sbindir}
+#install p0frep $RPM_BUILD_ROOT%{_bindir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/p0f
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/p0f
+cd test
+install p0fq p0f-* $RPM_BUILD_ROOT/%{_bindir}
 #install p0f.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %clean
@@ -86,9 +96,10 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc doc/{CREDITS,KNOWN_BUGS,README,TODO,ChangeLog}
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/p0f.fp
+%dir %{_sysconfdir}/p0f
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/p0f/*
 %attr(754,root,root) /etc/rc.d/init.d/p0f
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/p0f
-%attr(755,root,root) %{_sbindir}/p0f
-%attr(755,root,root) %{_bindir}/p0frep
-#{_mandir}/man1/p0f.1*
+%attr(755,root,root) %{_sbindir}/p0f*
+%attr(755,root,root) %{_bindir}/p0f*
+%{_mandir}/man1/p0f.1*
