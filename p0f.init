@@ -27,7 +27,7 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/p0f ]; then
 		msg_starting "p0f"
-		# The command in backticks returns all the local IP addresses on this machine.
+		# The command in backticks returns primary IP addresses on this machine
 		for OneIP in `/sbin/ifconfig 2>/dev/null | grep 'inet addr' | sed -e 's/.*addr://' -e 's/ .*//'` ; do
 			if [ -z "$BpfFilter" ]; then
 				BpfFilter="not src host $OneIP"
@@ -56,9 +56,7 @@ case "$1" in
 			OPTIONS="$OPTIONS -t"
 		fi
 		# Start up p0f and filter out all packets originating from any of this machines IP's.
-		nohup /usr/sbin/p0f "$RULE" $OPTIONS $P0F_OPTIONS >>/var/log/p0f 2>&1 &
-
-		ps -C p0f >/dev/null 2>&1
+		/usr/sbin/p0f "$RULE" $OPTIONS $P0F_OPTIONS -d -o /var/log/p0f 2>/dev/null
 		RETVAL=$?
 		CPID=$!
 		if [ $RETVAL -eq 0 ]; then
