@@ -1,6 +1,6 @@
---- mk/Linux~	2003-09-29 07:32:26.000000000 +0000
-+++ mk/Linux	2003-09-29 07:32:51.000000000 +0000
-@@ -43,9 +43,9 @@
+--- p0f/mk/Linux.org	2004-07-11 09:44:33.931453064 +0000
++++ p0f/mk/Linux	2004-07-11 09:44:55.669148432 +0000
+@@ -43,9 +43,8 @@
  	rm -f /tmp/p0f.tgz
  	
  install: $(FILE)
@@ -8,10 +8,10 @@
 -	cp -f p0frep /usr/sbin/
 -	mkdir /etc/p0f || true
 -	cp -f p0f.fp p0fa.fp p0fr.fp /etc/p0f/
--	cp -f p0f.1 /usr/man/man1/
+-	cp -f p0f.1 /usr/man/man1/ || cp -f p0f.1 /usr/local/man/man1/
+-	@echo "You might want to manually install test/ tools now."
 +	cp -f $(FILE) $(DESTDIR)/usr/sbin/
 +	cp -f p0frep $(DESTDIR)/usr/sbin/
 +	mkdir $(DESTDIR)/etc/p0f || true
 +	cp -f p0f.fp p0fa.fp p0fr.fp $(DESTDIR)/etc/p0f/
 +	cp -f p0f.1 $(DESTDIR)/usr/share/man/man1/
- 	@echo "You might want to manually install test/ tools now."
