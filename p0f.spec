@@ -1,3 +1,4 @@
+# TODO: use ip instead of ifconfig in .init
 Summary:	Passive OS fingerprinting tool
 Summary(pl):	Narzêdzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
@@ -41,17 +42,15 @@ tego hosta.
 %patch0 -p0
 
 %build
-%{__make} \
-	-f mk/Linux \
-	%{name} \
+%{__make} %{name} -f mk/Linux \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -fomit-frame-pointer -Wall"
 
 cd test
-%{__cc} -o p0fq p0fq.c
-%{__cc} -o p0f-sendack  sendack.c
-%{__cc} -o p0f-sendack2 sendack2.c
-%{__cc} -o p0f-sendsyn  sendsyn.c
+%{__cc} %{rpmldflags} %{rpmcflags} -o p0fq p0fq.c
+%{__cc} %{rpmldflags} %{rpmcflags} -o p0f-sendack  sendack.c
+%{__cc} %{rpmldflags} %{rpmcflags} -o p0f-sendack2 sendack2.c
+%{__cc} %{rpmldflags} %{rpmcflags} -o p0f-sendsyn  sendsyn.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -63,7 +62,7 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,%{_sbindir},%{_mandir
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/p0f
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/p0f
 cd test
-install p0fq p0f-* $RPM_BUILD_ROOT/%{_sbindir}
+install p0fq p0f-* $RPM_BUILD_ROOT%{_sbindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
