@@ -14,6 +14,9 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
+# Get service config
+[ -f /etc/sysconfig/p0f ] && . /etc/sysconfig/p0f
+
 # See how we were called.
 case "$1" in
   start)
@@ -28,8 +31,11 @@ case "$1" in
 				BpfFilter="$BpfFilter and not src host $OneIP"
 			fi
 		done
+		if [ -n "$P0F_INTERFACE" ]; then
+			OPTIONS="-i $P0F_INTERFACE"
+		fi
 		#Start up p0f and filter out all packets originating from any of this machines IP's.
-		nohup /usr/sbin/p0f -v "$BpfFilter" >>/var/log/p0f 2>&1 &
+		nohup /usr/sbin/p0f -v "$BpfFilter" $OPTIONS >>/var/log/p0f 2>&1 &
 
                 ps -C p0f >/dev/null 2>&1
                 RETVAL=$?

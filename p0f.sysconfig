@@ -1,0 +1,4 @@
+# Customized setings for p0f
+
+# Define interface for p0f
+P0F_INTERFACE=""
