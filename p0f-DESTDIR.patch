@@ -1,5 +1,5 @@
---- p0f/mk/Linux.org	2004-07-11 09:44:33.931453064 +0000
-+++ p0f/mk/Linux	2004-07-11 09:44:55.669148432 +0000
+--- p0f/mk/Linux	2004-09-13 18:03:59.000000000 +0000
++++ p0f.new/mk/Linux	2004-09-13 21:45:49.573605800 +0000
 @@ -43,9 +43,8 @@
  	rm -f /tmp/p0f.tgz
  	
@@ -7,7 +7,7 @@
 -	cp -f $(FILE) /usr/sbin/
 -	cp -f p0frep /usr/sbin/
 -	mkdir /etc/p0f || true
--	cp -f p0f.fp p0fa.fp p0fr.fp /etc/p0f/
+-	cp -f p0f.fp p0fa.fp p0fr.fp p0fo.fp /etc/p0f/
 -	cp -f p0f.1 /usr/man/man1/ || cp -f p0f.1 /usr/local/man/man1/
 -	@echo "You might want to manually install test/ tools now."
 +	cp -f $(FILE) $(DESTDIR)/usr/sbin/
