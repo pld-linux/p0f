@@ -14,6 +14,7 @@ Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-%{version}.tgz
 #Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-devel.tgz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
+Source3:	%{name}.logrotate
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-bpf.patch
 URL:		http://lcamtuf.coredump.cx/p0f.shtml
@@ -56,13 +57,14 @@ cd test
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,%{_sbindir},%{_mandir}/man1}
+install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/etc/logrotate.d,%{_sbindir},%{_mandir}/man1}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/p0f
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/p0f
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/logrotate.d/p0f
 cd test
 install p0fq p0f-* $RPM_BUILD_ROOT%{_sbindir}
 
@@ -97,5 +99,6 @@ fi
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/p0f/*
 %attr(754,root,root) /etc/rc.d/init.d/p0f
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/p0f
+%attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) /etc/logrotate.d/p0f
 %attr(755,root,root) %{_sbindir}/p0f*
 %{_mandir}/man1/p0f.1*
