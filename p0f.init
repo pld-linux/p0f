@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # p0f		This shell script takes care of starting and stopping
 #		the p0f monitoring program
 #
@@ -11,61 +11,71 @@
 # processname: p0f
 # pidfile: /var/run/p0f.pid
 
-PATH=/usr/bin:/sbin:/bin:/usr/sbin
-export PATH
-
 # Source function library.
 . /etc/rc.d/init.d/functions
 
+# See how we were called.
 case "$1" in
-start)
-	echo -n "Starting p0f: "
-	#The command in backticks returns all the local IP addresses on this machine.
-	for OneIP in `/sbin/ifconfig 2>/dev/null | grep 'inet addr' | sed -e 's/.*addr://' -e 's/ .*//'` ; do
-		if [ -z "$BpfFilter" ]; then
-			BpfFilter="not src host $OneIP"
-		else
-			BpfFilter="$BpfFilter and not src host $OneIP"
-		fi
-	done
-	rm -f /var/run/p0f.pid
-	#Start up p0f and filter out all packets originating from any of this machines IP's.
-	nohup /usr/sbin/p0f -v "$BpfFilter" >>/var/log/p0f 2>&1 &
-	echo $! >/var/run/p0f.pid
-	touch /var/lock/subsys/p0f
-	echo "done"
+  start)
+        # Check if the service is already running?
+        if [ ! -f /var/lock/subsys/p0f ]; then
+		msg_starting "p0f"
+		#The command in backticks returns all the local IP addresses on this machine.
+		for OneIP in `/sbin/ifconfig 2>/dev/null | grep 'inet addr' | sed -e 's/.*addr://' -e 's/ .*//'` ; do
+			if [ -z "$BpfFilter" ]; then
+				BpfFilter="not src host $OneIP"
+			else
+				BpfFilter="$BpfFilter and not src host $OneIP"
+			fi
+		done
+		#Start up p0f and filter out all packets originating from any of this machines IP's.
+		nohup /usr/sbin/p0f -v "$BpfFilter" >>/var/log/p0f 2>&1 &
+
+                ps -C p0f >/dev/null 2>&1
+                RETVAL=$?
+                CPID=$!
+                if [ $RETVAL -eq 0 ]; then
+                        touch /var/lock/subsys/p0f
+                        echo $CPID >/var/run/p0f.pid
+                        deltext; ok;
+                else
+                        deltext; fail;
+                fi
+        else
+                msg_already_running "p0f"
+                exit 1
+        fi
 	;;
 
-stop)
-	if [ -f /var/run/p0f.pid ]; then
-		echo -n "Stopping p0f: "
-		kill -TERM `cat /var/run/p0f.pid`
-		rm -f /var/run/p0f.pid
-		rm -f /var/lock/subsys/p0f
-		echo "done"
-	fi
-	;;
+  stop)
+        if [ -f /var/lock/subsys/p0f ]; then
+                msg_stopping "p0f"
+                #busy
+                killproc p0f
+                #deltext; ok;
+                rm -f /var/lock/subsys/p0f >/dev/null 2>&1
+                rm -f /var/run/p0f.pid >/dev/null 2>&1
+        else
+                msg_not_running "p0f"
+                exit 1
+        fi
+        ;;
 
-restart)
+  restart)
 	$0 stop
 	$0 start
-	exit $?
 	;;
 
-status)
+  status)
 	status p0f
 	exit $?
 	;;
 
-probe)
-	exit 0
-	;;
-
-*)
-	echo "Usage: $0 {start|stop|status|restart}"
+  *)
+	msg_usage "$0 {start|stop|status|restart}"
 	exit 1
 	;;
 
 esac
 
-exit 0
+exit $RETVAL
