@@ -7,6 +7,7 @@ License:	GPL
 Vendor:		Michal Zalewski <lcamtuf@coredump.cx>
 Group:		Applications/Networking
 Source0:	http://www.stearns.org/p0f/%{name}-%{version}.tgz
+# Source0-md5:	532c58affefef5b4e2f4ce4dba30c33b
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 URL:		http://www.stearns.org/p0f/
