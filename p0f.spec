@@ -2,7 +2,7 @@ Summary:	passive OS fingerprinting tool
 Summary(pl):	Narzêdzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
 Version:	1.8
-Release:	1
+Release:	2
 License:	GPL
 Vendor:		Michal Zalewski <lcamtuf@coredump.cx>
 Group:		Applications/Networking
@@ -41,10 +41,8 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,%{_sbindir},%{_mandir}/man1}
 install p0f.fp $RPM_BUILD_ROOT%{_sysconfdir}
 install p0f $RPM_BUILD_ROOT%{_sbindir}
 
-install p0f.init $RPM_BUILD_ROOT/etc/rc.d/init.d/p0f
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/p0f
 install p0f.1 $RPM_BUILD_ROOT%{_mandir}/man1
-
-gzip -9nf README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -64,8 +62,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README.gz
-%attr(644,root,root) %{_sysconfdir}/p0f.fp
-%attr(755,root,root) /etc/rc.d/init.d/p0f
+%doc README
+%attr(644,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/p0f.fp
+%attr(754,root,root) /etc/rc.d/init.d/p0f
 %attr(755,root,root) %{_sbindir}/p0f
 %attr(644,root,root) %{_mandir}/man1/p0f.1*
