@@ -75,6 +75,6 @@ fi
 %doc README
 %attr(644,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/p0f.fp
 %attr(754,root,root) /etc/rc.d/init.d/p0f
-%attr(640,root,root) /etc/sysconfig/p0f
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/p0f
 %attr(755,root,root) %{_sbindir}/p0f
 %attr(644,root,root) %{_mandir}/man1/p0f.1*
