@@ -1,16 +1,16 @@
 Summary:	Passive OS fingerprinting tool
 Summary(pl):	Narzêdzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
-Version:	1.8.3
+Version:	2.0.1
 Release:	1
-License:	GPL
+License:	LGPL v2.1
 Vendor:		Michal Zalewski <lcamtuf@coredump.cx>
 Group:		Applications/Networking
-Source0:	http://www.stearns.org/p0f/%{name}-%{version}.tgz
-# Source0-md5:	532c58affefef5b4e2f4ce4dba30c33b
+Source0:	http://lcamtuf.coredump.cx/p0f.tgz
+# Source0-md5:	50a8f485a13843f2cd20e40c9f3cb6ad
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
-URL:		http://www.stearns.org/p0f/
+URL:		http://lcamtuf.coredump.cx/p0f.shtml
 BuildRequires:	libpcap-devel
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
@@ -33,12 +33,14 @@ skanerów (nmap, queSO) - jest to robione bez wysy³ania czegokolwiek do
 tego hosta.
 
 %prep
-%setup -q
+%setup -q -n %{name}
 
 %build
 %{__make} \
+	-f mk/Linux \
+	%{name} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -Wall"
+	CFLAGS="%{rpmcflags} -fomit-frame-pointer -Wall"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -50,7 +52,7 @@ install p0frep $RPM_BUILD_ROOT%{_bindir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/p0f
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/p0f
-install p0f.1 $RPM_BUILD_ROOT%{_mandir}/man1
+#install p0f.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -78,10 +80,10 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README CREDITS ChangeLog
+%doc doc/{CREDITS,KNOWN_BUGS,README,TODO}
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/p0f.fp
 %attr(754,root,root) /etc/rc.d/init.d/p0f
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/p0f
 %attr(755,root,root) %{_sbindir}/p0f
 %attr(755,root,root) %{_bindir}/p0frep
-%{_mandir}/man1/p0f.1*
+#{_mandir}/man1/p0f.1*
