@@ -45,7 +45,7 @@ case "$1" in
 			OPTIONS="$OPTIONS -t"
 		fi
 		#Start up p0f and filter out all packets originating from any of this machines IP's.
-		nohup /usr/sbin/p0f -v "$BpfFilter" $OPTIONS >>/var/log/p0f 2>&1 &
+		nohup /usr/sbin/p0f "$BpfFilter" $OPTIONS >>/var/log/p0f 2>&1 &
 
 		ps -C p0f >/dev/null 2>&1
 		RETVAL=$?
