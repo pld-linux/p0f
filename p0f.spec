@@ -54,9 +54,17 @@ if [ ! -f /var/log/p0f ]; then
 	chmod 600 /var/log/p0f
 fi
 /sbin/chkconfig --add p0f
+if [ -f /var/lock/subsys/p0f ]; then
+	/etc/rc.d/init.d/p0f restart >&2
+else
+	echo "Run \"/etc/rc.d/init.d/p0f start\" to start p0f daemon."
+fi
 
 %preun
 if [ "$1" = "0" ]; then
+	if [ -f /var/lock/subsys/p0f ]; then
+		/etc/rc.d/init.d/p0f stop >&2
+	fi
 	/sbin/chkconfig --del p0f
 fi
 
