@@ -10,6 +10,7 @@ Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-%{version}.tgz
 # Source0-md5:	40d54b9e72cd85a791d1ef633a804743
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
+Patch0:		%{name}-config_h.patch
 URL:		http://lcamtuf.coredump.cx/p0f.shtml
 BuildRequires:	libpcap-devel
 PreReq:		rc-scripts
@@ -34,6 +35,7 @@ tego hosta.
 
 %prep
 %setup -q -n %{name}
+%patch0 -p0
 
 %build
 %{__make} \
