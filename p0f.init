@@ -2,14 +2,17 @@
 # p0f		This shell script takes care of starting and stopping
 #		the p0f monitoring program
 #
-# chkconfig: 2345 52 48
-# description: p0f - the p0f monitoring program. \
-# p0f performs passive OS fingerprinting technique bases on information coming \
-# from remote host when it establishes connection to our system. Captured \
-# packets contains enough information to determine OS - and, unlike \
-# active scanners (nmap, queSO) - without sending anything to this host.
-# processname: p0f
-# pidfile: /var/run/p0f.pid
+# chkconfig:	2345 52 48
+#
+# description:	p0f - the p0f monitoring program. \
+#		p0f performs passive OS fingerprinting technique bases on \
+#		information coming from remote host when it establishes \
+#		connection to our system. Captured packets contains enough \
+#		information to determine OS - and, unlike active scanners \
+#		(nmap, queSO) - without sending anything to this host.
+#
+# processname:	p0f
+# pidfile:	/var/run/p0f.pid
 
 # Source function library.
 . /etc/rc.d/init.d/functions
