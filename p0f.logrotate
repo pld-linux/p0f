@@ -1,6 +1,6 @@
 /var/log/p0f {
 	create 600 root root
 	postrotate
-		/etc/rc.d/init.d/p0f restart > /dev/null
+		[ ! -f /var/lock/subsys/p0f ] || /etc/rc.d/init.d/p0f restart > /dev/null
 	endscript
 }
