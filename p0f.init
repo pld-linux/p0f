@@ -17,11 +17,12 @@
 # Get service config
 [ -f /etc/sysconfig/p0f ] && . /etc/sysconfig/p0f
 
+
 # See how we were called.
 case "$1" in
   start)
-        # Check if the service is already running?
-        if [ ! -f /var/lock/subsys/p0f ]; then
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/p0f ]; then
 		msg_starting "p0f"
 		#The command in backticks returns all the local IP addresses on this machine.
 		for OneIP in `/sbin/ifconfig 2>/dev/null | grep 'inet addr' | sed -e 's/.*addr://' -e 's/ .*//'` ; do
@@ -46,51 +47,45 @@ case "$1" in
 		#Start up p0f and filter out all packets originating from any of this machines IP's.
 		nohup /usr/sbin/p0f -v "$BpfFilter" $OPTIONS >>/var/log/p0f 2>&1 &
 
-                ps -C p0f >/dev/null 2>&1
-                RETVAL=$?
-                CPID=$!
-                if [ $RETVAL -eq 0 ]; then
-                        touch /var/lock/subsys/p0f
-                        echo $CPID >/var/run/p0f.pid
-                        deltext; ok;
-                else
-                        deltext; fail;
-                fi
-        else
-                msg_already_running "p0f"
-                exit 1
-        fi
+		ps -C p0f >/dev/null 2>&1
+		RETVAL=$?
+		CPID=$!
+		if [ $RETVAL -eq 0 ]; then
+			touch /var/lock/subsys/p0f
+			echo $CPID >/var/run/p0f.pid
+			ok;
+		else
+			fail;
+		fi
+	else
+		msg_already_running "p0f"
+		exit 1
+	fi
 	;;
 
   stop)
-        if [ -f /var/lock/subsys/p0f ]; then
-                msg_stopping "p0f"
-                #busy
-                killproc p0f
-                #deltext; ok;
-                rm -f /var/lock/subsys/p0f >/dev/null 2>&1
-                rm -f /var/run/p0f.pid >/dev/null 2>&1
-        else
-                msg_not_running "p0f"
-                exit 1
-        fi
-        ;;
-
-  restart)
+	if [ -f /var/lock/subsys/p0f ]; then
+		msg_stopping "p0f"
+		killproc p0f
+		rm -f /var/lock/subsys/p0f >/dev/null 2>&1
+		rm -f /var/run/p0f.pid >/dev/null 2>&1
+	else
+		msg_not_running "p0f"
+		exit 1
+	fi
+	;;
+  restart|reload)
 	$0 stop
 	$0 start
 	;;
-
   status)
 	status p0f
 	exit $?
 	;;
-
   *)
-	msg_usage "$0 {start|stop|status|restart}"
+	msg_usage "$0 {start|stop|restart|reload|status}"
 	exit 1
 	;;
-
 esac
 
 exit $RETVAL
