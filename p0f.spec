@@ -11,8 +11,10 @@ Source0:	http://www.stearns.org/p0f/%{name}-%{version}.tgz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 URL:		http://www.stearns.org/p0f/
-Prereq:		/sbin/chkconfig
 BuildRequires:	libpcap-devel
+PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
+Requires(post):	fileutils
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -34,7 +36,9 @@ tego hosta.
 %setup -q
 
 %build
-%{__make} all
+%{__make} \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags} -Wall"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -54,7 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 if [ ! -f /var/log/p0f ]; then
 	touch /var/log/p0f
-	chown root.root /var/log/p0f
+	chown root:root /var/log/p0f
 	chmod 600 /var/log/p0f
 fi
 /sbin/chkconfig --add p0f
