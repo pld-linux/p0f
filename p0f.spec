@@ -17,6 +17,7 @@ Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-bpf.patch
+Patch2:		%{name}-masq_timestamp.patch
 URL:		http://lcamtuf.coredump.cx/p0f.shtml
 BuildRequires:	libpcap-devel
 PreReq:		rc-scripts
@@ -43,6 +44,7 @@ tego hosta.
 %setup -q -n %{name}
 %patch0 -p1
 %patch1 -p0
+%patch2 -p1
 
 %build
 %{__make} -j1 %{name} -f mk/Linux \
