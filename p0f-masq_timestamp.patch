@@ -1,0 +1,11 @@
+diff -urN p0f.orig/p0f.c p0f/p0f.c
+--- p0f.orig/p0f.c	2005-04-08 13:23:36.000000000 +0200
++++ p0f/p0f.c	2005-04-08 13:24:04.000000000 +0200
+@@ -1098,6 +1098,7 @@
+                             tstamp ? tstamp / 360000 : -1);
+      a=(_u8*)&src;
+      if (sc > masq_thres) {
++       if (add_timestamp) put_date(pts);
+        printf(">> Masquerade at %u.%u.%u.%u%s: indicators at %d%%.",
+               a[0],a[1],a[2],a[3],grab_name(a),sc);
+        if (!mode_oneline) putchar('\n'); else printf(" -- ");
