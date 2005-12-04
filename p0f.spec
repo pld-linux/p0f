@@ -20,9 +20,9 @@ Patch1:		%{name}-bpf.patch
 Patch2:		%{name}-masq_timestamp.patch
 URL:		http://lcamtuf.coredump.cx/p0f.shtml
 BuildRequires:	libpcap-devel
-PreReq:		rc-scripts
-Requires(post,preun):	/sbin/chkconfig
 Requires(post):	fileutils
+Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -98,9 +98,9 @@ fi
 %defattr(644,root,root,755)
 %doc doc/{CREDITS,KNOWN_BUGS,README,TODO,ChangeLog}
 %dir %{_sysconfdir}/p0f
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/p0f/*
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/p0f/*
 %attr(754,root,root) /etc/rc.d/init.d/p0f
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/p0f
-%attr(640,root,root) %config(noreplace) %verify(not md5 size mtime) /etc/logrotate.d/p0f
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/p0f
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/p0f
 %attr(755,root,root) %{_sbindir}/p0f*
 %{_mandir}/man1/p0f.1*
