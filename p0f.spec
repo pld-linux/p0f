@@ -1,9 +1,8 @@
-# TODO: use ip instead of ifconfig in .init
 Summary:	Passive OS fingerprinting tool
 Summary(pl):	Narzêdzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
 Version:	2.0.5
-Release:	2
+Release:	3
 License:	LGPL v2.1
 Vendor:		Michal Zalewski <lcamtuf@coredump.cx>
 Group:		Applications/Networking
@@ -20,9 +19,18 @@ Patch1:		%{name}-bpf.patch
 Patch2:		%{name}-masq_timestamp.patch
 URL:		http://lcamtuf.coredump.cx/p0f.shtml
 BuildRequires:	libpcap-devel
+BuildRequires:	rpmbuild(macros) >= 1.202
 Requires(post):	fileutils
 Requires(post,preun):	/sbin/chkconfig
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/useradd
 Requires:	rc-scripts
+Provides:	group(p0f)
+Provides:	user(p0f)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -73,6 +81,10 @@ install p0fq p0f-* $RPM_BUILD_ROOT%{_sbindir}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%pre
+%groupadd -g 164 p0f
+%useradd -u 164 -c "p0f user" -g p0f p0f
+
 %post
 if [ ! -f /var/log/p0f ]; then
 	touch /var/log/p0f
@@ -92,6 +104,12 @@ if [ "$1" = "0" ]; then
 		/etc/rc.d/init.d/p0f stop >&2
 	fi
 	/sbin/chkconfig --del p0f
+fi
+
+%postun
+if [ "$1" = "0" ]; then
+	%userremove p0f
+	%groupremove p0f
 fi
 
 %files
