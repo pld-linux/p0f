@@ -27,8 +27,8 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/p0f ]; then
 		msg_starting "p0f"
-		# The command in backticks returns primary IP addresses on this machine
-		for OneIP in `/sbin/ifconfig 2>/dev/null | grep 'inet addr' | sed -e 's/.*addr://' -e 's/ .*//'` ; do
+		# The command in backticks returns all the local IP addresses on this machine.
+		for OneIP in `/sbin/ip -f inet addr show | awk '/inet/{print $2}' | awk -F/ '{print $1}' | LC_ALL=C sort -u`; do
 			if [ -z "$BpfFilter" ]; then
 				BpfFilter="not src host $OneIP"
 			else
