@@ -58,10 +58,8 @@ case "$1" in
 		# Start up p0f and filter out all packets originating from any of this machines IP's.
 		/usr/sbin/p0f "$RULE" $OPTIONS $P0F_OPTIONS -d -o /var/log/p0f 2>/dev/null
 		RETVAL=$?
-		CPID=$!
 		if [ $RETVAL -eq 0 ]; then
 			touch /var/lock/subsys/p0f
-			echo $CPID >/var/run/p0f.pid
 			ok;
 		else
 			fail;
@@ -74,7 +72,7 @@ case "$1" in
 	if [ -f /var/lock/subsys/p0f ]; then
 		msg_stopping "p0f"
 		killproc p0f
-		rm -f /var/lock/subsys/p0f /var/run/p0f.pid >/dev/null 2>&1
+		rm -f /var/lock/subsys/p0f >/dev/null 2>&1
 	else
 		msg_not_running "p0f"
 	fi
