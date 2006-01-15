@@ -43,8 +43,17 @@ case "$1" in
 				RULE="$P0F_RULE"
 			fi
 		fi
+		OPTIONS=""
 		if [ -n "$P0F_INTERFACE" ]; then
-			OPTIONS="-i $P0F_INTERFACE"
+			OPTIONS="$OPTIONS -i $P0F_INTERFACE"
+		fi
+		if [ -n "$P0F_SOCKET" ]; then
+			# read the manual first and then ask why the umask
+			umask 007
+			OPTIONS="$OPTIONS -Q $P0F_SOCKET"
+		fi
+		if [ -n "$P0F_USER" ]; then
+			OPTIONS="$OPTIONS -u $P0F_USER"
 		fi
 		if [ $P0F_UNKNOWN_SIGNATURES = "yes" ]; then
 			OPTIONS="$OPTIONS -U"
@@ -59,6 +68,10 @@ case "$1" in
 		/usr/sbin/p0f "$RULE" $OPTIONS $P0F_OPTIONS -d -o /var/log/p0f 2>/dev/null
 		RETVAL=$?
 		if [ $RETVAL -eq 0 ]; then
+			# this is secure, as socket is always created with current umask and root
+			if [ "$P0F_USER" ] && [ "$P0F_SOCKET" ]; then
+				chown ${P0F_USER}: $P0F_SOCKET
+			fi
 			touch /var/lock/subsys/p0f
 			ok;
 		else
