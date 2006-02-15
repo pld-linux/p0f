@@ -17,8 +17,21 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
+# Get network config
+. /etc/sysconfig/network
+
 # Get service config
 [ -f /etc/sysconfig/p0f ] && . /etc/sysconfig/p0f
+
+# Check that networking is up.
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network ]; then
+		msg_network_down p0f
+		exit 1
+	fi
+else
+	exit 0
+fi
 
 RETVAL=0
 # See how we were called.
