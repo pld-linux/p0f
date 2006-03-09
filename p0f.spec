@@ -89,7 +89,6 @@ if [ ! -f /var/log/p0f ]; then
 fi
 /sbin/chkconfig --add p0f
 %service p0f restart "p0f daemon"
-%service p0f start "p0f daemon"
 
 %preun
 if [ "$1" = "0" ]; then
