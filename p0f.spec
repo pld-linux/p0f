@@ -1,25 +1,23 @@
 Summary:	Passive OS fingerprinting tool
 Summary(pl):	Narzêdzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
-Version:	2.0.5
-Release:	3
+Version:	2.0.6
+Release:	1
 License:	LGPL v2.1
 Vendor:		Michal Zalewski <lcamtuf@coredump.cx>
 Group:		Applications/Networking
 # Official releases:
 Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-%{version}.tgz
-# Source0-md5:	78235749e8ada6ad2b16b40fe15081f6
+# Source0-md5:	5f48bc69592079dad0a3866f39905141
 # Devel:
 #Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-devel.tgz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Patch0:		%{name}-DESTDIR.patch
-Patch1:		%{name}-bpf.patch
-Patch2:		%{name}-masq_timestamp.patch
 URL:		http://lcamtuf.coredump.cx/p0f.shtml
 BuildRequires:	libpcap-devel
-BuildRequires:	rpmbuild(macros) >= 1.202
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post):	fileutils
 Requires(post,preun):	/sbin/chkconfig
 Requires(postun):	/usr/sbin/groupdel
@@ -51,8 +49,6 @@ tego hosta.
 %prep
 %setup -q -n %{name}
 %patch0 -p1
-%patch1 -p0
-%patch2 -p1
 
 %build
 %{__make} -j1 %{name} -f mk/Linux \
@@ -92,17 +88,12 @@ if [ ! -f /var/log/p0f ]; then
 	chmod 600 /var/log/p0f
 fi
 /sbin/chkconfig --add p0f
-if [ -f /var/lock/subsys/p0f ]; then
-	/etc/rc.d/init.d/p0f restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/p0f start\" to start p0f daemon."
-fi
+%service p0f restart "p0f daemon"
+%service p0f start "p0f daemon"
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/p0f ]; then
-		/etc/rc.d/init.d/p0f stop >&2
-	fi
+	%service p0f stop
 	/sbin/chkconfig --del p0f
 fi
 
