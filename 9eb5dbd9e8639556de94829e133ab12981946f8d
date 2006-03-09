@@ -1,0 +1,1 @@
+- moved binaries from %{_bindir} to %{_sbindir} (they require root privileges)
