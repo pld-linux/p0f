@@ -1,5 +1,5 @@
 Summary:	Passive OS fingerprinting tool
-Summary(pl):	Narzêdzie do pasywnej daktyloskopii systemów operacyjnych
+Summary(pl.UTF-8):   NarzÄ™dzie do pasywnej daktyloskopii systemÃ³w operacyjnych
 Name:		p0f
 Version:	2.0.8
 Release:	2
@@ -37,12 +37,12 @@ Captured packets contains enough information to determine OS - and,
 unlike active scanners (nmap, queSO) - it is done without sending
 anything to this host.
 
-%description -l pl
-p0f przeprowadza pasywn± daktyloskopiê systemu operacyjnego bazuj±c na
-informacjach, które wysy³a zdalny system kiedy ustanawia po³±czenie z
-naszym. Wy³apane pakiety zawieraj± wystarczaj±co du¿o informacji by
-okre¶liæ system operacyjny - i, w przeciwieñstwie do aktywnych
-skanerów (nmap, queSO) - jest to robione bez wysy³ania czegokolwiek do
+%description -l pl.UTF-8
+p0f przeprowadza pasywnÄ… daktyloskopiÄ™ systemu operacyjnego bazujÄ…c na
+informacjach, ktÃ³re wysyÅ‚a zdalny system kiedy ustanawia poÅ‚Ä…czenie z
+naszym. WyÅ‚apane pakiety zawierajÄ… wystarczajÄ…co duÅ¼o informacji by
+okreÅ›liÄ‡ system operacyjny - i, w przeciwieÅ„stwie do aktywnych
+skanerÃ³w (nmap, queSO) - jest to robione bez wysyÅ‚ania czegokolwiek do
 tego hosta.
 
 %prep
