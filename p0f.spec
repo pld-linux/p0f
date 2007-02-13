@@ -1,5 +1,5 @@
 Summary:	Passive OS fingerprinting tool
-Summary(pl.UTF-8):   Narzędzie do pasywnej daktyloskopii systemów operacyjnych
+Summary(pl.UTF-8):	Narzędzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
 Version:	2.0.8
 Release:	2
