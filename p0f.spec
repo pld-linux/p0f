@@ -4,7 +4,7 @@ Name:		p0f
 Version:	2.0.8
 Release:	3
 License:	LGPL v2.1
-Group:		Applications/Networking
+Group:		Networking/Utilities
 # Official releases:
 Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-%{version}.tgz
 # Source0-md5:	1ccbcd8d4c95ef6dae841120d23c56a5
