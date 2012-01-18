@@ -1,20 +1,20 @@
 Summary:	Passive OS fingerprinting tool
 Summary(pl.UTF-8):	Narzędzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
-Version:	2.0.8
-Release:	3
+Version:	3.01b
+Release:	0.1
 License:	LGPL v2.1
 Group:		Networking/Utilities
 # Official releases:
-Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-%{version}.tgz
-# Source0-md5:	1ccbcd8d4c95ef6dae841120d23c56a5
+Source0:	http://lcamtuf.coredump.cx/p0f3/releases/%{name}-%{version}.tgz
+# Source0-md5:	292683bafaa31a03b4739c4b5f96eef5
 # Devel:
 #Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-devel.tgz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Patch0:		%{name}-DESTDIR.patch
-URL:		http://lcamtuf.coredump.cx/p0f.shtml
+URL:		http://lcamtuf.coredump.cx/p0f3/
 BuildRequires:	libpcap-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post):	fileutils
@@ -46,32 +46,27 @@ skanerów (nmap, queSO) - jest to robione bez wysyłania czegokolwiek do
 tego hosta.
 
 %prep
-%setup -q -n %{name}
-%patch0 -p1
+%setup -q
 
 %build
-%{__make} %{name} -f mk/Linux \
+%{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -fomit-frame-pointer -Wall"
+	CFLAGS="%{rpmcflags} -DFP_FILE=\"/usr/share/p0f/p0f.fp\"" \
+	LDFLAGS="%{rpmldflags}"
 
-cd test
-%{__cc} %{rpmldflags} %{rpmcflags} -o p0fq p0fq.c
-%{__cc} %{rpmldflags} %{rpmcflags} -o p0f-sendack  sendack.c
-%{__cc} %{rpmldflags} %{rpmcflags} -o p0f-sendack2 sendack2.c
-%{__cc} %{rpmldflags} %{rpmcflags} -o p0f-sendsyn  sendsyn.c
+%{__make} -C tools \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags}" \
+	LDFLAGS="%{rpmldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/etc/logrotate.d,%{_sbindir},%{_mandir}/man1}
-
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
+install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/etc/logrotate.d,%{_sbindir},%{_datadir}/p0f}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/p0f
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/p0f
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/logrotate.d/p0f
-cd test
-install p0fq p0f-* $RPM_BUILD_ROOT%{_sbindir}
+install p0f tools/p0f-{client,sendsyn,sendsyn6} $RPM_BUILD_ROOT%{_sbindir}
+install p0f.fp $RPM_BUILD_ROOT%{_datadir}/p0f
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -103,11 +98,9 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc doc/{CREDITS,KNOWN_BUGS,README,TODO,ChangeLog}
-%dir %{_sysconfdir}/p0f
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/p0f/*
+%doc docs/{ChangeLog,existential-notes.txt,extra-sigs.txt,README,TODO} tools/README-TOOLS
 %attr(754,root,root) /etc/rc.d/init.d/p0f
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/p0f
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/p0f
 %attr(755,root,root) %{_sbindir}/p0f*
-%{_mandir}/man1/p0f.1*
+%{_datadir}/p0f
