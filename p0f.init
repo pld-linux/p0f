@@ -68,15 +68,6 @@ case "$1" in
 		if [ -n "$P0F_USER" ]; then
 			OPTIONS="$OPTIONS -u $P0F_USER"
 		fi
-		if [ $P0F_UNKNOWN_SIGNATURES = "yes" ]; then
-			OPTIONS="$OPTIONS -U"
-		fi
-		if [ $P0F_KNOWN_SIGNATURES = "yes" ]; then
-			OPTIONS="$OPTIONS -K"
-		fi
-		if [ $P0F_TIMESTAMPS = "yes" ]; then
-			OPTIONS="$OPTIONS -t"
-		fi
 		# Start up p0f and filter out all packets originating from any of this machines IP's.
 		/usr/sbin/p0f "$RULE" $OPTIONS $P0F_OPTIONS -d -o /var/log/p0f 2>/dev/null
 		RETVAL=$?

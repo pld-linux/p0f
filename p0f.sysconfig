@@ -6,15 +6,6 @@ P0F_RULE=""
 # define interface for p0f
 P0F_INTERFACE=""
 
-# set to "yes" not display unknown signatures
-P0F_UNKNOWN_SIGNATURES="no"
-
-# set to "yes" not display known signatures
-P0F_KNOWN_SIGNATURES="no"
-
-# set to "yes" add timestamps
-P0F_TIMESTAMPS="no"
-
 # listen on a specified local stream socket. This is a method of integrating
 # p0f with active services (web server or web scripts, etc).
 P0F_SOCKET="/var/run/p0f.sock"
