@@ -69,7 +69,7 @@ case "$1" in
 			OPTIONS="$OPTIONS -u $P0F_USER"
 		fi
 		# Start up p0f and filter out all packets originating from any of this machines IP's.
-		/usr/sbin/p0f "$RULE" $OPTIONS $P0F_OPTIONS -d -o /var/log/p0f 2>/dev/null
+		/usr/sbin/p0f $OPTIONS $P0F_OPTIONS "$RULE" -d -o /var/log/p0f 2>/dev/null
 		RETVAL=$?
 		if [ $RETVAL -eq 0 ]; then
 			# this is secure, as socket is always created with current umask and root
