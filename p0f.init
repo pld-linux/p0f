@@ -63,7 +63,7 @@ case "$1" in
 		if [ -n "$P0F_SOCKET" ]; then
 			# read the manual first and then ask why the umask
 			umask 007
-			OPTIONS="$OPTIONS -Q $P0F_SOCKET"
+			OPTIONS="$OPTIONS -s $P0F_SOCKET"
 		fi
 		if [ -n "$P0F_USER" ]; then
 			OPTIONS="$OPTIONS -u $P0F_USER"
