@@ -13,7 +13,6 @@ Source0:	http://lcamtuf.coredump.cx/p0f3/releases/%{name}-%{version}.tgz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
-Patch0:		%{name}-DESTDIR.patch
 URL:		http://lcamtuf.coredump.cx/p0f3/
 BuildRequires:	libpcap-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
