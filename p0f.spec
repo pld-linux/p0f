@@ -6,14 +6,12 @@ Release:	1
 License:	LGPL v2.1
 Group:		Networking/Utilities
 # Official releases:
-Source0:	http://lcamtuf.coredump.cx/p0f3/releases/%{name}-%{version}.tgz
+Source0:	https://lcamtuf.coredump.cx/p0f3/releases/%{name}-%{version}.tgz
 # Source0-md5:	bc863233dc2b440cae6ef5665cae34bb
-# Devel:
-#Source0:	http://lcamtuf.coredump.cx/p0f/%{name}-devel.tgz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
-URL:		http://lcamtuf.coredump.cx/p0f3/
+URL:		https://lcamtuf.coredump.cx/p0f3/
 BuildRequires:	libpcap-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post):	fileutils
