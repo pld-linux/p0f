@@ -2,7 +2,7 @@ Summary:	Passive OS fingerprinting tool
 Summary(pl.UTF-8):	Narzędzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
 Version:	3.09b
-Release:	1
+Release:	2
 License:	LGPL v2.1
 Group:		Networking/Utilities
 # Official releases:
