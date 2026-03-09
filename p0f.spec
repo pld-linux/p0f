@@ -2,7 +2,7 @@ Summary:	Passive OS fingerprinting tool
 Summary(pl.UTF-8):	Narzędzie do pasywnej daktyloskopii systemów operacyjnych
 Name:		p0f
 Version:	3.09b
-Release:	2
+Release:	3
 License:	LGPL v2.1
 Group:		Networking/Utilities
 # Official releases:
@@ -48,12 +48,12 @@ tego hosta.
 %build
 %{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -DFP_FILE=\"/usr/share/p0f/p0f.fp\"" \
+	CFLAGS="%{rpmcflags} -std=gnu89 -DFP_FILE=\"/usr/share/p0f/p0f.fp\"" \
 	LDFLAGS="%{rpmldflags}"
 
 %{__make} -C tools \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}" \
+	CFLAGS="%{rpmcflags} -std=gnu89" \
 	LDFLAGS="%{rpmldflags}"
 
 %install
